@@ -45,7 +45,7 @@ function getFile(url) {
 	return request;
 }
 
-function listFolder(path) {
+function listFiles(path) {
 	var file = getFile(path);
 	var text = file.response;
 	var list = [];
@@ -55,19 +55,19 @@ function listFolder(path) {
 	return list;
 }
 
-function writeLinks(list) {
-	for (var link in list) {
+function writeLinks(links, parent) {
+	for (var link in links) {
 		var a = document.createElement('a');
 
 		a.href = link;
 		a.innerHTML = urlTitle(link);
 
-		linksContainer.appendChild(a);
+		parent.appendChild(a);
 	}
 }
 
 
-writeLinks(listFolder(linksPath));
+writeLinks(listFiles(linksPath), linksContainer);
 
 // urlTitle('http://jdh11235.github.io/web-experiments/@/inline-autocomplete');
 // => "Inline Autocomplete"
