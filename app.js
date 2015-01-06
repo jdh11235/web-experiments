@@ -27,8 +27,8 @@ var linksPath = '@';
 var linksContainer = document.getElementById('links');
 
 
-function linkTitle(link) {
-	var title = link.split('/').pop();
+function urlTitle(url) {
+	var title = url.split('/').pop();
 
 	title = title.replace(/-/gi, ' ');
 	title =	title.toTitleCase();
@@ -60,7 +60,7 @@ function writeLinks(list) {
 		var a = document.createElement('a');
 
 		a.href = link;
-		a.innerHTML = linkTitle(link);
+		a.innerHTML = urlTitle(link);
 
 		linksContainer.appendChild(a);
 	}
@@ -69,5 +69,5 @@ function writeLinks(list) {
 
 writeLinks(listFolder(linksPath));
 
-// linkTitle('http://jdh11235.github.io/web-experiments/@/inline-autocomplete');
+// urlTitle('http://jdh11235.github.io/web-experiments/@/inline-autocomplete');
 // => "Inline Autocomplete"
