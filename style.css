@@ -1,3 +1,58 @@
 /* Copyright (c) 2015 Jonathan Herman. MIT License. */
 /* Web Experiments */
 /* https://github.com/jdh11235/web-experiments */
+
+@import url(http://fonts.googleapis.com/css?family=Ubuntu+Mono:400);
+@import url(http://fonts.googleapis.com/css?family=Ubuntu:400);
+
+
+body {
+	background: #2d2d2d;
+	color: #ececec;
+
+	margin: 0;
+
+	font-family: 'Ubuntu Mono';
+}
+
+
+.srcbutton {
+	/* TODO */
+	float: right;
+}
+
+.center {
+	text-align: center;
+}
+
+.fullbleed {
+	position: fixed;
+
+	top: 0;
+	left: 0;
+
+	width: 100vw;
+	height: 100vh;
+}
+
+.big {
+	font-size: 2em;
+	font-family: 'Ubuntu';
+}
+
+
+#header {
+	background: skyblue;
+	color: #2d2d2d;
+}
+
+#middle {
+	background: #ececec;
+}
+#middle a {
+	color: #2d2d2d;
+}
+
+#footer {
+
+}
