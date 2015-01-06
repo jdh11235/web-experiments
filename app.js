@@ -45,6 +45,7 @@ function getFile(url) {
 	return request;
 }
 
+//only works on directories without an index.html
 function listFiles(path) {
 	var file = getFile(path);
 	var text = file.response;
@@ -56,8 +57,11 @@ function listFiles(path) {
 }
 
 function writeLinks(links, parent) {
-	for (var link in links) {
-		var a = document.createElement('a');
+	links.sort();
+
+	for (var i = 0, link, a; i < links.length; i++) {
+		link = links[i];
+		a = document.createElement('a');
 
 		a.href = link;
 		a.innerHTML = urlTitle(link);
@@ -68,6 +72,3 @@ function writeLinks(links, parent) {
 
 
 writeLinks(listFiles(linksPath), linksContainer);
-
-// urlTitle('http://jdh11235.github.io/web-experiments/@/inline-autocomplete');
-// => "Inline Autocomplete"
