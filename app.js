@@ -23,10 +23,6 @@ String.prototype.toTitleCase = function() {
 };
 
 
-var linksPath = '@';
-var linksContainer = document.getElementById('links');
-
-
 function urlTitle(url) {
 	var title = url.split('/').pop();
 
@@ -36,39 +32,61 @@ function urlTitle(url) {
 	return title;
 }
 
-function getFile(url) {
+function getFile(url, callback) {
 	var request = new XMLHttpRequest();
 
+	request.onload = callback;
 	request.open('get', url, true);
 	request.send();
-
-	return request;
 }
 
-//only works on directories without an index.html
-function listFiles(path) {
-	var file = getFile(path);
-	var text = file.response;
-	var list = [];
+function extractLinks(text) {
+	var links = text.match(/<a.+>/gi);
 
-	//do some regex to enumerate filepaths from text into list
+	links.forEach(function(value, index, arr) {
+		arr[index] = value.match(/".+"/gi)[0].slice(1, -1);
+	});
 
-	return list;
+	return links;
 }
 
+//parent must be a <ul> DOM element
 function writeLinks(links, parent) {
-	links.sort();
-
-	for (var i = 0, link, a; i < links.length; i++) {
+	for (var i = 0, link, a, li; i < links.length; i++) {
 		link = links[i];
+		li = document.createElement('li');
 		a = document.createElement('a');
 
 		a.href = link;
 		a.innerHTML = urlTitle(link);
 
-		parent.appendChild(a);
+		li.appendChild(a);
+		parent.appendChild(li);
 	}
 }
 
+function processLinks() {
+	var links = extractLinks(this.response);
 
-writeLinks(listFiles(linksPath), linksContainer);
+	//remove dotfile links
+	links = links.filter(function(value, index, arr) {
+		return (value.slice(0, 1) === '.') ? false : true;
+	});
+
+	//remove trailing slashes from links
+	links.forEach(function(value, index, arr) {
+		if (value.slice(-1) === '/') {
+			arr[index] = value.slice(0, -1);
+		}
+	});
+
+	//sort links alphabetically
+	links.sort();
+
+	writeLinks(links, linksContainer);
+}
+
+
+var linksContainer = document.getElementById('links');
+var linksPath = '@';
+getFile(linksPath, processLinks);
